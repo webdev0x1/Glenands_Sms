@@ -1,0 +1,25 @@
+<?php
+namespace Glenands\Sms\Model\Observer;
+
+use Glenands\Sms\Model\Sms\Sms;
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface as CustomerRepository;
+
+class ProcessOrder implements ObserverInterface
+{
+    protected $sms;
+    protected $customerRepository;
+
+    public function __construct(Sms $sms, CustomerRepository $customerRepository) {
+        $this->sms = $sms;
+        $this->customerRepository = $customerRepository;
+    }
+
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+        $event = $observer->getEvent();
+        $customerId = $event->getCustomer()->getId();
+        $customer = $this->customerRepository->getById($customerId);
+        $this->sms->sendOrderNotification($customer->getCustomAttribute('phone_number')->getValue(), $event->getOrderId());
+    }
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Glenands_Sms::config" title="Glenands Sms" module="Glenands_Sms" sortOrder="51" resource="Glenands_Sms::config"/>
+        <add id="Glenands_Sms::grid" title="Configuration" module="Glenands_Sms" sortOrder="99" parent="Glenands_Sms::config" action="adminhtml/system_config/edit/section/glenands_sms" resource="Glenands_Sms::config"/>
+        <add
+            id="Glenands_Sms::listing"
+            title="Sms Grid"
+            translate="title"
+            module="Glenands_Sms"
+            sortOrder="20"
+            parent="Glenands_Sms::config"
+            action="glenands/index/index"
+            resource="Glenands_Sms::grid"
+        />
+    </menu>
+</config>

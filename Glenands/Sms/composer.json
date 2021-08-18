@@ -1,0 +1,42 @@
+{
+    "name": "glenands/module-sms",
+    "description": "This extension generate OTP for login, registration of customer and send sms for order related updates",
+    "keywords": [
+        "magento 2",
+        "otp phone",
+	"order confirmation sms",
+	"shimpent sms",
+	"SMS api integration",
+        "phone number",
+        "customer login",
+        "login with phone",
+        "magento 2 login",
+        "magentyo 2 extension"
+
+    ],
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0"
+    ],
+    "version": "1.2.1",
+    "support": {
+        "issues": "https://github.com/webdev0x1/glenands-sms/issues/"
+    },
+    "require": {
+        "magento/framework": ">=100.1.0"
+    },
+    "repositories": {
+        "0": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Glenands\\Sms\\": ""
+        }
+    }
+}

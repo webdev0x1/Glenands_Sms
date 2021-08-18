@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- API Preferences -->
+    <preference for="Glenands\Sms\Api\SigninInterface" type="Glenands\Sms\Model\Handler\Signin"/>
+    <!-- Overrides -->
+    
+    <preference for="Magento\Customer\Block\Form\Login" type="Glenands\Sms\Block\Form\Login"/>
+    <preference for="Magento\Customer\Controller\Account\LoginPost" type="Glenands\Sms\Controller\Account\LoginPost" />
+    <preference for="Magento\Customer\Controller\Account\CreatePost" type="Glenands\Sms\Controller\Account\CreatePost" />
+    <preference for="Magento\Customer\Controller\Account\Create" type="Glenands\Sms\Controller\Account\Create" />
+
+    <type name="Magento\Customer\Model\ResourceModel\Customer">
+        <plugin name="glenands_validate_unique_phonenumber" type="Glenands\Sms\Plugin\Model\ResourceModel\Customer\ValidateUniquePhonenumber" sortOrder="10" disabled="false"  />
+    </type>
+
+    <type name="Magento\Customer\Controller\Plugin\Account">
+        <arguments>
+            <argument name="allowedActions" xsi:type="array">
+                <item name="otp" xsi:type="string">otp</item>
+                <item name="otppost" xsi:type="string">otppost</item>
+                <item name="createpost" xsi:type="string">createpost</item>
+                <item name="create" xsi:type="string">create</item>
+                <item name="forgotpassword" xsi:type="string">forgotpassword</item>
+                <item name="forgotpasswordpost" xsi:type="string">forgotpasswordpost</item>
+                <item name="accountcreateotp" xsi:type="string">accountcreateotp</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

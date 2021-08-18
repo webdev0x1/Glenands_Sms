@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Empye Technologies LLP
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="glenands" frontName="glenands">
+            <module name="Glenands_Sms"/>
+        </route>
+    </router>
+</config>

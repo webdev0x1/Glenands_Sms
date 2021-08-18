@@ -1,0 +1,183 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div class="authentication-wrapper" data-block="authentication" data-bind="visible: isActive()">
+    <button
+        type="button"
+        class="action action-auth-toggle"
+        data-trigger="authentication">
+        <span data-bind="i18n: 'Sign In'"></span>
+    </button>
+    <div class="block-authentication"
+         style="display: none"
+         data-bind="mageInit: {
+            'Magento_Ui/js/modal/modal':{
+                'type': 'custom',
+                'modalClass': 'authentication-dropdown',
+                'trigger': '[data-trigger=authentication]',
+                'wrapperClass': 'authentication-wrapper',
+                'parentModalClass': '_has-modal-custom _has-auth-shown',
+                'responsive': true,
+                'responsiveClass': 'custom-slide',
+                'overlayClass': 'dropdown-overlay modal-custom-overlay',
+                'buttons': []
+            }}">
+        <!-- ko foreach: getRegion('before') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+        <div class="block block-customer-login"
+             data-bind="attr: {'data-label': $t('or')}">
+            <div class="block-title">
+                <strong id="block-customer-login-heading"
+                    role="heading"
+                    aria-level="2"
+                    data-bind="i18n: 'Sign In'"></strong>
+            </div>
+            <!-- ko foreach: getRegion('messages') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+            <div class="block-content" aria-labelledby="block-customer-login-heading">
+                <form data-role="login"
+                      data-bind="submit:login"
+                      method="post">
+                    <div class="fieldset"
+                              data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+                        <div class="field field-email required">
+                            <label class="label" for="login-email"><span data-bind="i18n: 'Email Address'"></span></label>
+                            <div class="control">
+                                <input type="email"
+                                       class="input-text"
+                                       id="login-email"
+                                       name="username"
+                                       data-bind="
+                                       textInput: emailcustom,
+                                        mageInit: {'mage/trim-input':{}}"
+                                       data-validate="{required:true, 'validate-email':true}" 
+                                       autocomplete="off"/>
+                            </div>
+                        </div>
+                        <div class="field field-password required">
+                            <label for="login-password" class="label"><span data-bind="i18n: 'Password'"></span></label>
+                            <div class="control">
+                                <input type="password"
+                                       class="input-text"
+                                       id="login-password"
+                                       name="password"
+                                       data-bind="attr: {autocomplete: autocomplete}"
+                                       data-validate="{required:true}"
+                                       autocomplete="off"/>
+                            </div>
+                        </div>
+                        <!-- ko foreach: getRegion('additional-login-form-fields') -->
+                        <!-- ko template: getTemplate() --><!-- /ko -->
+                        <!-- /ko -->
+                    </div>
+                    <div class="actions-toolbar">
+                        <input name="context" type="hidden" value="checkout" />
+                        <div class="primary">
+                            <button type="submit" class="action action-login secondary" data-action="checkout-method-otp"><span data-bind="i18n: 'Sign In'"></span></button>
+                        </div>
+                        <div class="secondary">
+                            <a class="action action-remind" data-bind="attr: { href: forgotPasswordUrl }">
+                                <span data-bind="i18n: 'Forgot Your Password?'"></span>
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="phonemodal" data-bind="mageInit: {
+        'Magento_Ui/js/modal/modal':{
+            'type': 'popup',
+            'title': 'Enter Phone Number',
+            'modalClass': 'popup-otp',
+            'responsive': true,
+            'buttons': []
+        }}, blockLoader: isLoadingPhone">
+        <form class="form form-login" data-role="email-with-possible-login"
+            data-bind="event: {submit: otp }"
+            method="post">
+                        <div class="content">
+                            <label class="label" for="customer-otp"><span data-bind="i18n: 'Phone number'"></span></label>
+                            <div class="control">
+                                
+                                <input name="phone_number"
+                                   id="customer-phone"
+                                   type="text"
+                                   class="input-text"
+                                   data-mage-init='{"mage/trim-input":{}}'
+                                   data-bind="
+                                       textInput: phone,
+                                        mageInit: {'mage/trim-input':{}}"
+                                   data-validate="{required:true}"
+                                   autocomplete="off">
+    
+                                    <input type="hidden"
+                                       class="input-text"
+                                       id="login-email"
+                                       name="username"
+                                       type="hidden"
+                                       data-bind="
+                                            textInput: emailcustom,
+                                            mageInit: {'mage/trim-input':{}}"
+                                       data-validate="{required:true, 'validate-email':true}"
+                                       autocomplete="off" />
+                            </div>
+                            <div class="actions-toolbar">
+                                <input name="context" type="hidden" value="checkout" />
+                                <div class="primary">
+                                    <button type="submit" class="action login primary" data-action="checkout-method-otp" style="margin-top: 10px;"><span data-bind="i18n: 'Send OTP'"></span></button>
+                                </div>
+                            </div>
+                        </div>
+        </form>
+    </div>
+    <div id="modal2" data-bind="mageInit: {
+        'Magento_Ui/js/modal/modal':{
+            'type': 'popup',
+            'title': 'Enter OTP',
+            'responsive': true,
+            'buttons': []
+        }}">
+        <form class="form form-login" data-role="email-with-possible-login"
+            data-bind="submit:login"
+            method="post">
+                        <div class="content">
+                            <label class="label" for="customer-otp"><span data-bind="i18n: ''"></span></label>
+                            <div class="control">
+                                <input class="input-text"
+                                    data-bind="
+                                            attr: {
+                                                placeholder: $t('Enter Otp')
+                                            }"
+                                    type="text"
+                                    value=''
+                                    name="otp"
+                                    id="customer-otp2"
+                                    data-validate="{required:true, 'validate-number':true}" autocomplete="off"/>
+                                    <input type="hidden"
+                                       class="input-text"
+                                       id="login-email"
+                                       name="username"
+                                       type="hidden"
+                                       data-bind="
+                                            textInput: emailcustom,
+                                            mageInit: {'mage/trim-input':{}}"
+                                       data-validate="{required:true, 'validate-email':true}"
+                                       autocomplete="off" />
+                            </div>
+                            <div class="actions-toolbar">
+                                <input name="context" type="hidden" value="checkout" />
+                                <div class="primary">
+                                    <button type="submit" class="action login primary" data-action="checkout-method-otp" style="margin-top: 10px;"><span data-bind="i18n: 'Submit'"></span></button>
+                                </div>
+                            </div>
+                        </div>
+        </form>
+    </div>
+
+</div>

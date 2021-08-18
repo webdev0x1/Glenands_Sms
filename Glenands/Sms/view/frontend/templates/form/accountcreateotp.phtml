@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * Empye Technologies LLP
+ */
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();  
+$request = $objectManager->get('Magento\Framework\App\Request\Http'); 
+?>
+<style>
+    .centerotp {
+        width: 30%;
+        float: none;
+        text-align: center;
+        margin: 0 auto;
+        display: block;
+    }
+    .glenands-account-accountcreateotp .page-title-wrapper {
+        text-align: center;
+    }
+    .customer-popup-otp .actions-toolbar .primary {
+        float: none !important;
+    }
+    .customer-popup-otp .actions-toolbar {
+        text-align: center !important;
+    }
+</style>
+<div id="customer-popup-otp" class="customer-popup-otp">
+    <div class="col-md-6 image centerotp">
+    <img src="<?php echo $this->getViewFileUrl('Glenands_Sms::images/mobile.png'); ?>">
+    </div>
+    <div class="col-md-6 centerotp">
+        <div class="otpmessages"></div>
+        <?php if(!$this->isCustomerExist()): ?>
+            <form class="form" method="post" id="form-otpsend" action="<?php echo $block->getUrl('glenands/account/createpost/'); ?>" data-mage-init='{"validation":{}}'> 
+            <input type="hidden" name="phone_number" value="<?php echo $block->escapeHtml($this->getPhoneNumber()); ?>" />
+            <input type="hidden" name="hash" value="<?php echo $block->escapeHtml($this->getHash()); ?>" />
+            <input type="hidden" name="email" value="<?php echo $block->escapeHtml($this->getEmail()); ?>" />
+            <input type="hidden" name="firstname" value="<?php echo $block->escapeHtml($this->getFirstname()); ?>" />
+            <input type="hidden" name="lastname" value="<?php echo $block->escapeHtml($this->getLastname()); ?>" />
+            <input type="hidden" name="is_subscribed" value="<?php echo $block->escapeHtml($this->getIsSubscribed()); ?>" />
+        <?php else: ?>
+            <form class="form" method="post" id="form-otpsend" action="<?php echo $block->getUrl('glenands/account/otppost/'); ?>" data-mage-init='{"validation":{}}'> 
+        <?php endif; ?>
+            <input type="hidden" name="redirect_url" value="<?php echo $this->getUrl('/'); ?>" />
+            <?= $block->getBlockHtml('formkey') ?>
+            <fieldset class="fieldset" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>">
+                <?php if(empty($this->getPhoneNumber())): ?>
+                    <div class="field otp required">
+                        <div class="control">
+                            <input type="hidden" name="hash" value="<?php echo $block->escapeHtml($block->getHash()); ?>" />
+                            <input type="text" placeholder="Enter Phone number" value="<?php if($request->getParam('phone_number')) { echo $request->getParam('phone_number'); } ?>" name="phone_number" alt="Phone number" id="phone_number" class="input-text" data-validate="{required:true,'validate-number':true}">
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <?php if($this->isOtpGenerated()): ?>
+                    <div class="field otp required">
+                        <div class="control">
+                            <input type="hidden" name="hash" value="<?php echo $block->escapeHtml($block->getHash()); ?>" />
+                            <input type="text" placeholder="Enter OTP" name="otp" alt="otp" id="otp" class="input-text" data-validate="{required:true}">
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="actions-toolbar">
+                        <div class="primary">
+                            <button type="submit" name="send" value="send" class="action submit sendotpsubmit primary"><span><?= $block->escapeHtml(__('Send OTP')) ?></span></button>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </fieldset>
+            <?php if($this->isOtpGenerated()): ?>
+                <div class="actions-toolbar">
+                    <div class="primary">
+                        <button type="submit" name="enter" value="enter" class="action submit sendotpsubmit primary"><span><?= $block->escapeHtml(__('Enter OTP')) ?></span></button>
+                    </div>
+                    <?php if(empty($this->getPhoneNumber())): ?>
+                        <div class="secondary">
+                            <button type="submit" value="resend" class="resendotp"><span><?= $block->escapeHtml(__('Resend OTP')) ?></span></a>
+                        </div>
+                    <?php else: ?>
+                        <div class="secondary">
+                            <a type="submit" href="<?php echo $block->getUrl('glenands/account/resend/').'hash/'.$block->escapeHtml($this->getHash()).'/phone_number/'.$block->escapeHtml($this->getPhoneNumber()); ?>" class="resendotp"><span><?= $block->escapeHtml(__('Resend OTP')) ?></span></a>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </form>
+    </div>
+</div>

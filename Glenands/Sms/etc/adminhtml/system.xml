@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (C) 2021 Empye Technologies LLP
+ *
+ * http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * Please see LICENSE.txt for the full text of the OSL 3.0 license
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="glenands" translate="label" sortOrder="900">
+            <label>Glenands</label>
+        </tab>
+        <section id="glenands_sms" showInDefault="1">
+            <tab>glenands</tab>
+            <label>Glenands SMS</label>
+            <resource>Glenands_Sms::config</resource>
+            <group id="module" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+                <label>Enable Module</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="otp" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label">
+                <label>Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable OTP for Login and Registration</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="api_configuration" translate="label" sortOrder="11"
+                    showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Api Configuration</label>
+                <field id="api_url" translate="Api Url" type="text" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Api Url</label>
+                </field>
+                <field id="username" translate="Username for Api" type="text" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Username</label>
+                </field>
+                <field id="password" translate="Password for Api" type="text" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Password</label>
+                </field>
+                  <field id="from" translate="From" type="text" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>From</label>
+                </field>
+            </group>
+            <group id="bitly_configuration" translate="label" sortOrder="11"
+                    showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Bitly Configuration</label>
+                <field id="auth_token" translate="Auth Token" type="text" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Auth token</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
